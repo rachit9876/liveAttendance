@@ -1,5 +1,8 @@
 # Live Attendance System
 
+### [📄 PPT](https://www.canva.com/design/DAG4Un1kla4/8Gepz5y-aNOAqYfHEYAvRA/edit?utm_content=DAG4Un1kla4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+
 ## Download & Setup
 
 1. **Download Project**
