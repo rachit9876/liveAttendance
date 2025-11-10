@@ -23,7 +23,7 @@ Live System: python app.py → http://localhost:5000
    - If distance < 0.4 with any face → Duplicate (reject)
    - If unique → Accept
 5. Saves:
-   - Image: backend/faces/22053970.jpg
+   - Image: backend/faces/<roll_number>.jpg
    - Data: backend/data/users.json
 6. Student registered!
 
@@ -59,7 +59,7 @@ Input: Webcam image (640x480 pixels)
 Process: Haar Cascade finds face-like patterns
 Output: Face coordinates (x, y, width, height)
 
-Example: Face found at (100, 50, 200, 200)
+Example: Face found at (x, y, width, height)
 
 === STEP 2: FACE ENCODING (FaceNet) ===
 
@@ -85,8 +85,8 @@ Process:
 Output: Match or No Match
 
 Example:
-  Rajul stored: [0.23, -0.45, 0.67, ...]
-  Rajul captured: [0.24, -0.44, 0.68, ...]
+  Student A stored: [0.23, -0.45, 0.67, ...]
+  Student A captured: [0.24, -0.44, 0.68, ...]
   Distance: 0.15 < 0.4 → MATCH!
   
   Different person: [0.89, 0.12, -0.34, ...]

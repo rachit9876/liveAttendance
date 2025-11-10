@@ -5,22 +5,22 @@
 === TRAINING & MODEL ===
 
 Q: Show me your training
-A: [Run RUN_DEMO.bat]
-   "Ma'am, here's the complete training:
+A: [Run TEST_CASE.bat]
+   "Here's the complete training:
    - 20 epochs with data augmentation
    - Started at 25% accuracy, reached 100%
    - Training loss decreased from 1.38 to 0.03
    - Validation accuracy: 100%"
 
 Q: Where is your model?
-A: "Ma'am, I'm using transfer learning with FaceNet model:
+A: "I'm using transfer learning with FaceNet model:
    - Pre-trained by Google on 200 million face images
    - Cached at ~/.deepface/weights/facenet_weights.h5
    - I implemented custom training pipeline in train_custom_model.py
    - Can train on any dataset"
 
 Q: Did you train the model yourself?
-A: "Yes Ma'am, I did two things:
+A: "Yes, I did two things:
    1. Used pre-trained FaceNet as base (transfer learning - industry standard)
    2. Implemented custom training pipeline with:
       - Custom architecture design
@@ -29,7 +29,7 @@ A: "Yes Ma'am, I did two things:
       - Model evaluation"
 
 Q: What is transfer learning?
-A: "Ma'am, transfer learning means using a model pre-trained on large dataset
+A: "Transfer learning means using a model pre-trained on large dataset
    and fine-tuning it for our specific task. It's better than training from
    scratch because:
    - Requires less data
@@ -38,21 +38,21 @@ A: "Ma'am, transfer learning means using a model pre-trained on large dataset
    - Industry standard (Google, Facebook use this)"
 
 Q: How long did training take?
-A: "Ma'am, for 20 epochs with data augmentation, approximately 45 minutes
+A: "For 20 epochs with data augmentation, approximately 45 minutes
    on CPU. With GPU it would be 10-15 minutes."
 
 === DATASET ===
 
 Q: Show me the dataset of faces you trained on
 A: [Run RUN_DEMO.bat - opens all images]
-   "Ma'am, here are the 4 students:
-   1. Rajul Goel (Roll: 22053970) - 1303x1737 pixels
-   2. Rachit Pandey (Roll: 2205916) - 1280x720 pixels
-   3. Sanchit Rout (Roll: 22053979) - 640x480 pixels
-   4. Anwaya Anuprash Biswal (Roll: 22053667) - 640x480 pixels"
+   "Here are the 4 students:
+   1. Student A (Roll: <roll_1>) - 1303x1737 pixels
+   2. Student B (Roll: <roll_2>) - 1280x720 pixels
+   3. Student C (Roll: <roll_3>) - 640x480 pixels
+   4. Student D (Roll: <roll_4>) - 640x480 pixels"
 
 Q: Why only 4 students?
-A: "Ma'am, this is a proof-of-concept with our project team members.
+A: "This is a proof-of-concept with our project team members.
    Benefits:
    - Demonstrates the complete system
    - Achieved 100% accuracy
@@ -61,12 +61,12 @@ A: "Ma'am, this is a proof-of-concept with our project team members.
    - Can add entire college by just registering via web interface"
 
 Q: Where did you get the dataset?
-A: "Ma'am, we captured our own faces using the registration interface.
+A: "We captured our own faces using the registration interface.
    Each team member registered their face through the web application.
    Images are stored in backend/faces/ folder."
 
 Q: Can you add more students?
-A: "Yes Ma'am, very easily:
+A: "Yes, very easily:
    1. Student opens registration page
    2. Captures face via webcam
    3. System automatically saves and trains
@@ -74,7 +74,7 @@ A: "Yes Ma'am, very easily:
    Can handle unlimited students."
 
 Q: What about data augmentation?
-A: "Ma'am, I implemented 7 augmentation techniques:
+A: "I implemented 7 augmentation techniques:
    - Rotation: ±20 degrees
    - Width/Height shift: ±20%
    - Shear transform: ±20%
@@ -87,7 +87,7 @@ A: "Ma'am, I implemented 7 augmentation techniques:
 
 Q: How accurate is your model?
 A: [Run RUN_DEMO.bat]
-   "Ma'am, the results are excellent:
+   "The results are excellent:
    - Accuracy: 100%
    - Precision: 1.0000 (no false positives)
    - Recall: 1.0000 (no false negatives)
@@ -96,20 +96,20 @@ A: [Run RUN_DEMO.bat]
    - FRR (False Reject Rate): 0%"
 
 Q: What is FAR and FRR?
-A: "Ma'am:
+A: "FAR and FRR are:
    - FAR (False Acceptance Rate): Unauthorized person accepted = 0%
    - FRR (False Rejection Rate): Authorized person rejected = 0%
    Both are 0%, meaning perfect security."
 
 Q: How did you test accuracy?
-A: "Ma'am, I tested all possible pairs:
+A: "I tested all possible pairs:
    - 4 genuine matches (same person) - All correct
    - 12 impostor matches (different persons) - All correct
    - Total 16 comparisons - 100% accuracy
    Used confusion matrix: TP=4, TN=12, FP=0, FN=0"
 
 Q: What if accuracy drops with more students?
-A: "Ma'am, FaceNet is trained on 200 million faces, so it generalizes well.
+A: "FaceNet is trained on 200 million faces, so it generalizes well.
    If needed, we can:
    - Retrain with more data
    - Adjust threshold
@@ -117,7 +117,7 @@ A: "Ma'am, FaceNet is trained on 200 million faces, so it generalizes well.
    - Add more augmentation"
 
 Q: How fast is recognition?
-A: "Ma'am, recognition takes 200-500ms per face:
+A: "Recognition takes 200-500ms per face:
    - Face detection: ~50ms
    - Face encoding: ~150ms
    - Matching: ~50ms
@@ -127,7 +127,7 @@ A: "Ma'am, recognition takes 200-500ms per face:
 
 Q: What ML work did you do?
 A: [Run RUN_DEMO.bat]
-   "Ma'am, I completed 10 major ML tasks:
+   "I completed 10 major ML tasks:
    1. Model Selection - Compared 4 models scientifically
    2. Hyperparameter Tuning - Optimized threshold, learning rate
    3. Architecture Design - Custom neural network (329K parameters)
@@ -140,7 +140,7 @@ A: [Run RUN_DEMO.bat]
    10. Achieved 100% accuracy with 0% false rates"
 
 Q: Is this just using libraries?
-A: "No Ma'am, libraries are tools. The ML work I did:
+A: "No, libraries are tools. The ML work I did:
    - Compared 4 models (FaceNet, VGG-Face, ArcFace, FaceNet512)
    - Designed custom neural network architecture
    - Implemented data augmentation pipeline
@@ -153,7 +153,7 @@ A: "No Ma'am, libraries are tools. The ML work I did:
 
 Q: Which models did you compare?
 A: [Run RUN_DEMO.bat]
-   "Ma'am, I compared 4 models with 2 distance metrics each:
+   "I compared 4 models with 2 distance metrics each:
    1. FaceNet + Cosine (Selected - best balance)
    2. FaceNet + Euclidean
    3. VGG-Face + Cosine
@@ -165,7 +165,7 @@ A: [Run RUN_DEMO.bat]
    Selected FaceNet + Cosine for optimal accuracy and speed."
 
 Q: What is your model architecture?
-A: "Ma'am:
+A: "The architecture is:
    Base: InceptionResNetV2 (pre-trained on ImageNet)
    Custom Layers:
    - GlobalAveragePooling2D
@@ -177,7 +177,7 @@ A: "Ma'am:
    Total: 54M parameters, 329K trainable"
 
 Q: What hyperparameters did you tune?
-A: "Ma'am, I tuned:
+A: "I tuned:
    - Distance threshold: Tested 0.3-0.6, selected 0.4
    - Learning rate: 0.001 (Adam optimizer)
    - Batch size: 8
@@ -188,7 +188,7 @@ A: "Ma'am, I tuned:
 === TECHNICAL DETAILS ===
 
 Q: What is FaceNet?
-A: "Ma'am, FaceNet is a deep learning model by Google that:
+A: "FaceNet is a deep learning model by Google that:
    - Converts face images to 128-dimensional embeddings
    - Trained on 200 million face images
    - Achieves 99.63% accuracy on LFW benchmark
@@ -196,7 +196,7 @@ A: "Ma'am, FaceNet is a deep learning model by Google that:
    - Industry standard for face recognition"
 
 Q: What is cosine distance?
-A: "Ma'am, cosine distance measures similarity between face embeddings:
+A: "Cosine distance measures similarity between face embeddings:
    - Range: 0 to 1
    - 0 = identical faces
    - 1 = completely different
@@ -204,14 +204,14 @@ A: "Ma'am, cosine distance measures similarity between face embeddings:
    - Better than Euclidean for high-dimensional data"
 
 Q: How does face recognition work?
-A: "Ma'am, 3 steps:
+A: "It works in 3 steps:
    1. Face Detection - OpenCV finds face in image
    2. Face Encoding - FaceNet converts face to 128 numbers
    3. Face Matching - Compare encodings using cosine distance
    If distance < 0.4, same person."
 
 Q: What is liveness detection?
-A: "Ma'am, prevents photo attacks using EAR (Eye Aspect Ratio):
+A: "It prevents photo attacks using EAR (Eye Aspect Ratio):
    - Calculates eye openness ratio
    - Formula: EAR = (vertical distances) / (horizontal distance)
    - Threshold: 0.2
@@ -219,7 +219,7 @@ A: "Ma'am, prevents photo attacks using EAR (Eye Aspect Ratio):
    - Uses MediaPipe for facial landmarks"
 
 Q: What is confusion matrix?
-A: "Ma'am, shows model performance:
+A: "It shows model performance:
    - True Positive (TP): Correct match = 4
    - True Negative (TN): Correct rejection = 12
    - False Positive (FP): Wrong match = 0
@@ -227,14 +227,14 @@ A: "Ma'am, shows model performance:
    Perfect classification!"
 
 Q: What optimizer did you use?
-A: "Ma'am, Adam optimizer with learning rate 0.001:
+A: "Adam optimizer with learning rate 0.001:
    - Adaptive learning rate
    - Combines momentum and RMSprop
    - Industry standard for deep learning
    - Faster convergence than SGD"
 
 Q: What loss function?
-A: "Ma'am, Categorical Crossentropy:
+A: "Categorical Crossentropy:
    - Used for multi-class classification
    - Measures difference between predicted and actual
    - Minimized during training
@@ -243,7 +243,7 @@ A: "Ma'am, Categorical Crossentropy:
 === IMPLEMENTATION ===
 
 Q: What technologies did you use?
-A: "Ma'am:
+A: "Technologies used:
    - Backend: Python, Flask
    - ML: TensorFlow, DeepFace, OpenCV, MediaPipe
    - Frontend: HTML, CSS, JavaScript
@@ -251,14 +251,14 @@ A: "Ma'am:
    - Deployment: CPU optimized"
 
 Q: Why Flask?
-A: "Ma'am, Flask is:
+A: "Flask is:
    - Lightweight Python web framework
    - Easy to integrate with ML models
    - Good for prototypes and small applications
    - RESTful API support"
 
 Q: Why CPU instead of GPU?
-A: "Ma'am, for deployment:
+A: "For deployment:
    - More portable (not all systems have GPU)
    - Sufficient speed (200-500ms)
    - Lower cost
@@ -266,14 +266,14 @@ A: "Ma'am, for deployment:
    - Optimized with threading (8 intra-op, 2 inter-op)"
 
 Q: How do you store data?
-A: "Ma'am:
+A: "Data storage:
    - User data: data/users.json (name, roll, image path)
    - Face images: faces/ folder
    - Attendance: data/attendance.csv (name, roll, date, time)
    - Can migrate to SQL database if needed"
 
 Q: Can this work in real-time?
-A: "Yes Ma'am:
+A: "Yes:
    - Webcam captures frame
    - Detects faces in 50ms
    - Recognizes in 200-500ms
@@ -283,7 +283,7 @@ A: "Yes Ma'am:
 === FEATURES ===
 
 Q: What features does your system have?
-A: "Ma'am, 5 main features:
+A: "5 main features:
    1. Student Registration - Capture and store face
    2. Attendance Marking - Real-time face recognition
    3. Student Management - View, edit, delete students
@@ -291,7 +291,7 @@ A: "Ma'am, 5 main features:
    5. Surveillance Mode - Multi-face detection with liveness"
 
 Q: How does registration work?
-A: "Ma'am:
+A: "Registration process:
    1. Student enters name, roll number, gender
    2. Captures face via webcam
    3. System checks if face already exists (prevents duplicates)
@@ -300,7 +300,7 @@ A: "Ma'am:
    6. Ready for attendance"
 
 Q: How does attendance marking work?
-A: "Ma'am:
+A: "Attendance marking process:
    1. Student stands in front of camera
    2. System captures face
    3. Compares with all registered faces
@@ -310,7 +310,7 @@ A: "Ma'am:
    5. Shows success message"
 
 Q: What about multiple faces?
-A: "Ma'am, surveillance mode handles up to 5 faces:
+A: "Surveillance mode handles up to 5 faces:
    - Detects all faces using MediaPipe
    - Checks liveness for each (EAR algorithm)
    - Recognizes each face
@@ -318,7 +318,7 @@ A: "Ma'am, surveillance mode handles up to 5 faces:
    - Real-time processing"
 
 Q: Can someone mark attendance with photo?
-A: "No Ma'am, liveness detection prevents this:
+A: "No, liveness detection prevents this:
    - Checks eye movement (EAR algorithm)
    - Detects 3D facial landmarks
    - Photo won't have proper eye ratios
@@ -327,7 +327,7 @@ A: "No Ma'am, liveness detection prevents this:
 === CHALLENGES & SOLUTIONS ===
 
 Q: What challenges did you face?
-A: "Ma'am, 3 main challenges:
+A: "3 main challenges:
    1. Small dataset (4 students)
       Solution: Data augmentation (200+ samples)
    2. Photo attacks
@@ -336,14 +336,14 @@ A: "Ma'am, 3 main challenges:
       Solution: CPU threading, face encoding caching"
 
 Q: How did you handle small dataset?
-A: "Ma'am, data augmentation:
+A: "Data augmentation:
    - Rotation, shift, zoom, flip
    - 4 images → 200+ training samples
    - Improves model robustness
    - Prevents overfitting"
 
 Q: How did you prevent overfitting?
-A: "Ma'am, 5 techniques:
+A: "5 techniques:
    1. Dropout layers (0.5 and 0.3)
    2. Data augmentation
    3. Validation split (20%)
@@ -351,7 +351,7 @@ A: "Ma'am, 5 techniques:
    5. Transfer learning (pre-trained features)"
 
 Q: What if lighting changes?
-A: "Ma'am, model handles this because:
+A: "The model handles this because:
    - FaceNet trained on diverse lighting
    - Data augmentation includes brightness
    - Cosine distance is lighting-invariant
@@ -360,7 +360,7 @@ A: "Ma'am, model handles this because:
 === FUTURE ENHANCEMENTS ===
 
 Q: What improvements can be made?
-A: "Ma'am, 5 enhancements:
+A: "5 enhancements:
    1. Add more students (scale to entire college)
    2. Age and gender detection
    3. Emotion recognition
@@ -368,19 +368,19 @@ A: "Ma'am, 5 enhancements:
    5. Cloud deployment (AWS/Azure)"
 
 Q: Can you add emotion detection?
-A: "Yes Ma'am, can use:
+A: "Yes, can use:
    - DeepFace emotion module
    - Detects 7 emotions (happy, sad, angry, etc.)
    - Useful for student engagement analysis"
 
 Q: Can this work on mobile?
-A: "Yes Ma'am, two options:
+A: "Yes, two options:
    1. Mobile web app (responsive design)
    2. Native app (React Native/Flutter)
    3. Edge deployment (TensorFlow Lite)"
 
 Q: What about privacy?
-A: "Ma'am, privacy measures:
+A: "Privacy measures:
    - Face images stored locally
    - No cloud upload
    - Encrypted storage possible
@@ -390,31 +390,31 @@ A: "Ma'am, privacy measures:
 === COMPARISON ===
 
 Q: How is this better than manual attendance?
-A: "Ma'am:
+A: "Comparison:
    Manual: Time-consuming, proxy possible, paper-based
    Our System: Fast (2 seconds), no proxy, digital records, analytics"
 
 Q: How is this better than RFID cards?
-A: "Ma'am:
+A: "Comparison:
    RFID: Cards can be shared, lost, costly
    Our System: Face can't be shared, no hardware cost, more secure"
 
 Q: How is this better than fingerprint?
-A: "Ma'am:
+A: "Comparison:
    Fingerprint: Contact-based (hygiene issue), slower
    Our System: Contactless, faster, works from distance"
 
 === DEPLOYMENT ===
 
 Q: How to deploy this?
-A: "Ma'am, 3 options:
+A: "3 options:
    1. Local: Run on college server
    2. Cloud: Deploy on AWS/Azure/Heroku
    3. Edge: Raspberry Pi at entrance
    Current: Runs on any PC with Python"
 
 Q: What are system requirements?
-A: "Ma'am:
+A: "System requirements:
    - Python 3.8+
    - 4GB RAM minimum
    - Webcam
@@ -422,7 +422,7 @@ A: "Ma'am:
    - No GPU required (CPU optimized)"
 
 Q: How much does it cost?
-A: "Ma'am:
+A: "Cost breakdown:
    - Development: Free (open-source libraries)
    - Deployment: ~$10/month (cloud) or free (local server)
    - Maintenance: Minimal
@@ -431,14 +431,14 @@ A: "Ma'am:
 === DEMONSTRATION ===
 
 Q: Can you show me live demo?
-A: "Yes Ma'am:
+A: "Yes:
    1. [Run RUN_DEMO.bat] - Shows all ML work
    2. [Run python app.py] - Live web application
    3. Open browser: http://localhost:5000
    4. Register face, mark attendance, view records"
 
 Q: Show me the code
-A: "Yes Ma'am:
+A: "Yes:
    - app.py: Main application (500+ lines)
    - demo_all.py: ML demonstration (300+ lines)
    - train_custom_model.py: Training pipeline (200+ lines)
