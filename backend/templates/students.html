@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Students</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::selection { background: #F8BBD9; color: #000; }
+        ::-moz-selection { background: #F8BBD9; color: #000; }
+        body { font-family: 'Arial Black', sans-serif; background: #ff6b6b; min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 30px; border: 5px solid #000; box-shadow: 12px 12px 0 #000; }
+        h1 { color: #000; margin-bottom: 20px; text-align: center; text-transform: uppercase; font-size: 2em; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #000; text-decoration: none; font-weight: bold; border-bottom: 3px solid #000; }
+        .back-link:hover { background: #ffd700; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; border: 4px solid #000; }
+        th, td { padding: 12px; text-align: left; border: 3px solid #000; }
+        th { background: #ffd700; color: #000; font-weight: bold; text-transform: uppercase; }
+        tr:hover { background: #ffd700; }
+        .student-img { width: 60px; height: 60px; object-fit: cover; border: 3px solid #000; }
+        .delete-btn { background: #ff00ff; color: #000; border: 3px solid #000; padding: 8px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; box-shadow: 4px 4px 0 #000; transition: all 0.1s; }
+        .delete-btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+        .no-data { text-align: center; padding: 40px; color: #000; font-weight: bold; }
+        .message { padding: 10px; margin: 10px 0; text-align: center; border: 3px solid #000; font-weight: bold; }
+        .success { background: #00ff00; color: #000; }
+        .error { background: #ff6b6b; color: #000; }
+        .edit-btn { background: #00ffff; color: #000; border: 3px solid #000; padding: 8px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; box-shadow: 4px 4px 0 #000; transition: all 0.1s; margin-right: 5px; }
+        .edit-btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; }
+        .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 30px; border: 5px solid #000; box-shadow: 12px 12px 0 #000; max-width: 500px; width: 90%; }
+        .modal h2 { margin-bottom: 20px; text-transform: uppercase; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 3px solid #000; font-size: 16px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .save-btn { flex: 1; background: #00ff00; color: #000; border: 3px solid #000; padding: 10px; cursor: pointer; font-weight: bold; text-transform: uppercase; box-shadow: 4px 4px 0 #000; }
+        .cancel-btn { flex: 1; background: #ff6b6b; color: #000; border: 3px solid #000; padding: 10px; cursor: pointer; font-weight: bold; text-transform: uppercase; box-shadow: 4px 4px 0 #000; }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 15px; box-shadow: 5px 5px 0 #000; overflow-x: auto; }
+            h1 { font-size: 1.3em; }
+            table { font-size: 12px; }
+            th, td { padding: 8px; }
+            .student-img { width: 40px; height: 40px; }
+            .edit-btn, .delete-btn { padding: 5px 10px; font-size: 11px; display: block; margin: 3px 0; width: 100%; }
+            .modal-content { width: 95%; padding: 20px; }
+            .form-group input, .form-group select { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        <h1>Registered Students</h1>
+        <div id="message"></div>
+        <div id="studentList">
+            <p class="no-data">Loading...</p>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Student</h2>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-group">
+                <label>Roll Number:</label>
+                <input type="text" id="editRollNumber" readonly style="background: #f0f0f0;">
+            </div>
+            <div class="form-group">
+                <label>Gender:</label>
+                <select id="editGender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Update Picture:</label>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <button class="edit-btn" id="togglePicBtn" type="button" style="display: inline-block; width: auto; padding: 8px 20px; margin: 0;">Switch to Upload</button>
+                </div>
+                <div id="cameraPicSection">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <label style="font-weight: bold; margin-right: 10px;">Camera:</label>
+                        <select id="cameraPicSelect" style="padding: 8px; border: 3px solid #000; font-size: 14px; background: #fff; font-family: 'Arial Black', sans-serif;">
+                            <option value="">Loading cameras...</option>
+                        </select>
+                    </div>
+                    <video id="editVideo" autoplay style="width: 100%; max-width: 400px; border: 3px solid #000; display: block; margin: 0 auto; transform: scaleX(-1);"></video>
+                    <canvas id="editCanvas" style="display: none;"></canvas>
+                    <button class="edit-btn" id="capturePicBtn" style="margin-top: 10px; width: 100%;">Capture Face</button>
+                </div>
+                <div id="uploadPicSection" style="display: none; text-align: center;">
+                    <input type="file" id="fileInputPic" accept="image/*" style="padding: 10px; border: 3px solid #000; background: #fff; width: 100%;">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="save-btn" onclick="saveEdit()">Save</button>
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadStudents() {
+            try {
+                const response = await fetch('/api/users');
+                const users = await response.json();
+                
+                const listDiv = document.getElementById('studentList');
+                
+                if (users.length === 0) {
+                    listDiv.innerHTML = '<p class="no-data">No students registered yet</p>';
+                    return;
+                }
+                
+                let html = '<table><thead><tr><th>Photo</th><th>Name</th><th>Roll Number</th><th>Gender</th><th>Action</th></tr></thead><tbody>';
+                
+                users.forEach(user => {
+                    html += `
+                        <tr>
+                            <td><img src="/${user.image_path}" class="student-img" alt="${user.name}"></td>
+                            <td>${user.name}</td>
+                            <td>${user.roll_number}</td>
+                            <td>${user.gender || 'N/A'}</td>
+                            <td>
+                                <button class="edit-btn" onclick='editStudent(${JSON.stringify(user)})'>Edit</button>
+                                <button class="delete-btn" onclick="deleteStudent('${user.roll_number}', '${user.name}')">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+                listDiv.innerHTML = html;
+            } catch (error) {
+                document.getElementById('studentList').innerHTML = '<p class="no-data">Error loading students</p>';
+            }
+        }
+
+        async function deleteStudent(rollNumber, name) {
+            if (!confirm(`Are you sure you want to delete ${name} (${rollNumber})?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/delete/${rollNumber}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    loadStudents();
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('Failed to delete student', 'error');
+            }
+        }
+
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="message ${type}">${msg}</div>`;
+            setTimeout(() => { messageDiv.innerHTML = ''; }, 3000);
+        }
+
+        function editStudent(user) {
+            document.getElementById('editName').value = user.name;
+            document.getElementById('editRollNumber').value = user.roll_number;
+            document.getElementById('editGender').value = user.gender || 'Male';
+            capturedPicture = null;
+            isPicUploadMode = false;
+            cameraPicSection.style.display = 'block';
+            uploadPicSection.style.display = 'none';
+            togglePicBtn.textContent = 'Switch to Upload';
+            loadEditCameras();
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+            if (editStream) {
+                editStream.getTracks().forEach(track => track.stop());
+                editStream = null;
+            }
+            capturedPicture = null;
+        }
+
+        async function saveEdit() {
+            const rollNumber = document.getElementById('editRollNumber').value;
+            const name = document.getElementById('editName').value.trim();
+            const gender = document.getElementById('editGender').value;
+
+            if (!name) {
+                showMessage('Name cannot be empty', 'error');
+                return;
+            }
+
+            try {
+                const payload = { name, gender };
+                if (capturedPicture) {
+                    payload.image = capturedPicture;
+                }
+
+                const response = await fetch(`/api/update/${rollNumber}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    closeModal();
+                    loadStudents();
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('Failed to update student', 'error');
+            }
+        }
+
+        let editStream = null;
+        let capturedPicture = null;
+        let isPicUploadMode = false;
+        const editVideo = document.getElementById('editVideo');
+        const editCanvas = document.getElementById('editCanvas');
+        const cameraPicSelect = document.getElementById('cameraPicSelect');
+        const togglePicBtn = document.getElementById('togglePicBtn');
+        const cameraPicSection = document.getElementById('cameraPicSection');
+        const uploadPicSection = document.getElementById('uploadPicSection');
+        const fileInputPic = document.getElementById('fileInputPic');
+        const capturePicBtn = document.getElementById('capturePicBtn');
+
+        async function loadEditCameras() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                
+                cameraPicSelect.innerHTML = '';
+                videoDevices.forEach((device, index) => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Camera ${index + 1}`;
+                    cameraPicSelect.appendChild(option);
+                });
+                
+                if (videoDevices.length > 0) {
+                    startEditCamera(videoDevices[0].deviceId);
+                }
+            } catch (err) {
+                console.error('Camera error:', err);
+            }
+        }
+
+        async function startEditCamera(deviceId) {
+            if (editStream) {
+                editStream.getTracks().forEach(track => track.stop());
+            }
+            
+            try {
+                editStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { deviceId: deviceId ? { exact: deviceId } : undefined } 
+                });
+                editVideo.srcObject = editStream;
+            } catch (err) {
+                console.error('Camera error:', err);
+            }
+        }
+
+        cameraPicSelect.addEventListener('change', () => {
+            startEditCamera(cameraPicSelect.value);
+        });
+
+        togglePicBtn.addEventListener('click', () => {
+            isPicUploadMode = !isPicUploadMode;
+            if (isPicUploadMode) {
+                cameraPicSection.style.display = 'none';
+                uploadPicSection.style.display = 'block';
+                togglePicBtn.textContent = 'Switch to Camera';
+                if (editStream) editStream.getTracks().forEach(track => track.stop());
+            } else {
+                cameraPicSection.style.display = 'block';
+                uploadPicSection.style.display = 'none';
+                togglePicBtn.textContent = 'Switch to Upload';
+                loadEditCameras();
+            }
+            capturedPicture = null;
+        });
+
+        capturePicBtn.addEventListener('click', () => {
+            editCanvas.width = editVideo.videoWidth;
+            editCanvas.height = editVideo.videoHeight;
+            editCanvas.getContext('2d').drawImage(editVideo, 0, 0);
+            capturedPicture = editCanvas.toDataURL('image/jpeg');
+            showMessage('Face captured! Click Save to update', 'success');
+        });
+
+        fileInputPic.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    capturedPicture = event.target.result;
+                    showMessage('Image loaded! Click Save to update', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        loadStudents();
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+======================================================================
+               FACE RECOGNITION TRAINING DATASET REPORT
+======================================================================
+
+Total Students: 4
+Total Images: 4
+Dataset Location: backend/faces/
+Organized Dataset: backend/dataset/
+
+Dataset Structure:
+----------------------------------------------------------------------
+faces/
+  |-- 22053970.jpg
+  |-- 2205916.jpg
+  |-- 22053979.jpg
+  |-- 22053667.jpg
+
+dataset/ (Organized for Training)
+  |-- Rajul Goel_22053970/
+  |     |-- face_1.jpg
+  |-- Rachit Pandey_2205916/
+  |     |-- face_1.jpg
+  |-- Sanchit Rout_22053979/
+  |     |-- face_1.jpg
+  |-- Anwaya Anuprash Biswal_22053667/
+  |     |-- face_1.jpg
+
+======================================================================
+STUDENT DETAILS
+======================================================================
+
+Student 1:
+  Name: Rajul Goel
+  Roll Number: 22053970
+  Gender: Male
+  Image: faces\22053970.jpg
+  Image Size: 1303x1737 pixels
+  Status: Available
+
+Student 2:
+  Name: Rachit Pandey
+  Roll Number: 2205916
+  Gender: Male
+  Image: faces\2205916.jpg
+  Image Size: 1280x720 pixels
+  Status: Available
+
+Student 3:
+  Name: Sanchit Rout
+  Roll Number: 22053979
+  Gender: Male
+  Image: faces\22053979.jpg
+  Image Size: 640x480 pixels
+  Status: Available
+
+Student 4:
+  Name: Anwaya Anuprash Biswal
+  Roll Number: 22053667
+  Gender: Male
+  Image: faces\22053667.jpg
+  Image Size: 640x480 pixels
+  Status: Available
+
+======================================================================
+DATASET STATISTICS
+======================================================================
+
+Number of Classes: 4
+Images per Class: 1
+Total Training Samples: 4
+Image Format: JPEG
+Color Space: RGB
+
+======================================================================
+AUGMENTATION POTENTIAL
+======================================================================
+
+With data augmentation, each image can generate:
+  - Rotated versions: 10+ variations
+  - Shifted versions: 10+ variations
+  - Flipped versions: 2 variations
+  - Zoomed versions: 5+ variations
+  Total augmented samples: 200+ images
+
+======================================================================
+PUBLIC DATASET AUGMENTATION OPTIONS
+======================================================================
+
+Can be augmented with:
+  1. LFW Dataset: 13,000 images
+  2. CelebA Dataset: 202,599 images
+  3. VGGFace2 Dataset: 3.31M images
+  4. CASIA-WebFace: 494,414 images
+
+======================================================================

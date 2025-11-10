@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register User</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::selection { background: #F8BBD9; color: #000; }
+        ::-moz-selection { background: #F8BBD9; color: #000; }
+        body { font-family: 'Arial Black', sans-serif; background: #ff00ff; min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border: 5px solid #000; box-shadow: 12px 12px 0 #000; }
+        h1 { color: #000; margin-bottom: 20px; text-align: center; text-transform: uppercase; font-size: 2em; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #000; font-weight: bold; text-transform: uppercase; }
+        input { width: 100%; padding: 10px; border: 3px solid #000; font-size: 16px; background: #fff; }
+        video { width: 100%; max-width: 640px; border: 5px solid #000; display: block; margin: 0 auto; box-shadow: 8px 8px 0 #000; transform: scaleX(-1); }
+        canvas { display: none; }
+        .btn { padding: 12px 30px; background: #00ff00; color: #000; border: 4px solid #000; cursor: pointer; font-size: 16px; margin: 5px; font-weight: bold; text-transform: uppercase; box-shadow: 5px 5px 0 #000; transition: all 0.1s; }
+        .btn:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #000; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .btn:nth-child(2) { background: #ffd700; }
+        .message { padding: 10px; margin: 10px 0; text-align: center; border: 3px solid #000; font-weight: bold; }
+        .success { background: #00ff00; color: #000; }
+        .error { background: #ff6b6b; color: #000; }
+        .back-link { display: inline-block; margin-top: 20px; color: #000; text-decoration: none; font-weight: bold; border-bottom: 3px solid #000; }
+        .back-link:hover { background: #ffd700; }
+        .button-group { text-align: center; margin-top: 20px; }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 15px; box-shadow: 5px 5px 0 #000; }
+            h1 { font-size: 1.3em; }
+            video { max-width: 100%; box-shadow: 4px 4px 0 #000; }
+            .btn { padding: 10px 20px; font-size: 14px; margin: 5px 0; display: block; width: 100%; }
+            input, select { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register New User</h1>
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" id="name" placeholder="Enter full name">
+        </div>
+        <div class="form-group">
+            <label>Roll Number:</label>
+            <input type="text" id="rollNumber" placeholder="Enter roll number">
+        </div>
+        <div class="form-group">
+            <label>Gender:</label>
+            <select id="gender" style="width: 100%; padding: 10px; border: 3px solid #000; font-size: 16px; background: #fff; font-family: 'Arial Black', sans-serif;">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Capture Face:</label>
+            <div style="text-align: center; margin-bottom: 10px;">
+                <button class="btn" id="toggleBtn" type="button" style="display: inline-block; width: auto; padding: 8px 20px;">Switch to Upload</button>
+            </div>
+            <div id="cameraSection">
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <label style="font-weight: bold; margin-right: 10px;">Camera:</label>
+                    <select id="cameraSelect" style="padding: 8px; border: 3px solid #000; font-size: 14px; background: #fff; font-family: 'Arial Black', sans-serif;">
+                        <option value="">Loading cameras...</option>
+                    </select>
+                </div>
+                <video id="video" autoplay></video>
+                <canvas id="canvas"></canvas>
+            </div>
+            <div id="uploadSection" style="display: none; text-align: center;">
+                <input type="file" id="fileInput" accept="image/*" style="padding: 10px; border: 3px solid #000; background: #fff;">
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="btn" id="captureBtn">Capture Face</button>
+            <button class="btn" id="registerBtn" disabled>Register</button>
+        </div>
+        <div id="message"></div>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const messageDiv = document.getElementById('message');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const cameraSection = document.getElementById('cameraSection');
+        const uploadSection = document.getElementById('uploadSection');
+        const fileInput = document.getElementById('fileInput');
+        let capturedImage = null;
+        let isUploadMode = false;
+        let stream = null;
+        const cameraSelect = document.getElementById('cameraSelect');
+
+        async function loadCameras() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                
+                cameraSelect.innerHTML = '';
+                videoDevices.forEach((device, index) => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Camera ${index + 1}`;
+                    cameraSelect.appendChild(option);
+                });
+                
+                if (videoDevices.length > 0) {
+                    startCamera(videoDevices[0].deviceId);
+                }
+            } catch (err) {
+                showMessage('Camera access denied', 'error');
+            }
+        }
+
+        async function startCamera(deviceId) {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { deviceId: deviceId ? { exact: deviceId } : undefined } 
+                });
+                video.srcObject = stream;
+            } catch (err) {
+                showMessage('Camera access denied', 'error');
+            }
+        }
+
+        cameraSelect.addEventListener('change', () => {
+            startCamera(cameraSelect.value);
+        });
+
+        loadCameras();
+
+        toggleBtn.addEventListener('click', () => {
+            isUploadMode = !isUploadMode;
+            if (isUploadMode) {
+                cameraSection.style.display = 'none';
+                uploadSection.style.display = 'block';
+                captureBtn.textContent = 'Load Image';
+                toggleBtn.textContent = 'Switch to Camera';
+                if (stream) stream.getTracks().forEach(track => track.stop());
+            } else {
+                cameraSection.style.display = 'block';
+                uploadSection.style.display = 'none';
+                captureBtn.textContent = 'Capture Face';
+                toggleBtn.textContent = 'Switch to Upload';
+                loadCameras();
+            }
+            capturedImage = null;
+            registerBtn.disabled = true;
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    capturedImage = event.target.result;
+                    registerBtn.disabled = false;
+                    showMessage('Image loaded! Now click Register', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        captureBtn.addEventListener('click', async () => {
+            if (isUploadMode) {
+                fileInput.click();
+            } else {
+                captureBtn.disabled = true;
+                showMessage('⏳ Checking face...', 'success');
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                capturedImage = canvas.toDataURL('image/jpeg');
+                
+                try {
+                    const response = await fetch('/api/check_face', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ image: capturedImage })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        registerBtn.disabled = false;
+                        showMessage('✓ Face captured! Now click Register', 'success');
+                    } else {
+                        capturedImage = null;
+                        showMessage(data.message, 'error');
+                    }
+                } catch (error) {
+                    capturedImage = null;
+                    showMessage('Face check failed', 'error');
+                }
+                
+                captureBtn.disabled = false;
+            }
+        });
+
+        registerBtn.addEventListener('click', async () => {
+            const name = document.getElementById('name').value.trim();
+            const rollNumber = document.getElementById('rollNumber').value.trim();
+            const gender = document.getElementById('gender').value;
+
+            if (!name || !rollNumber || !gender) {
+                showMessage('Please fill all fields', 'error');
+                return;
+            }
+
+            if (!capturedImage) {
+                showMessage('Please capture face first', 'error');
+                return;
+            }
+
+            registerBtn.disabled = true;
+            showMessage('Registering...', 'success');
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, roll_number: rollNumber, gender, image: capturedImage })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    setTimeout(() => { window.location.href = '/'; }, 2000);
+                } else {
+                    showMessage(data.message, 'error');
+                    registerBtn.disabled = false;
+                }
+            } catch (error) {
+                showMessage('Registration failed', 'error');
+                registerBtn.disabled = false;
+            }
+        });
+
+        function showMessage(msg, type) {
+            messageDiv.innerHTML = `<div class="message ${type}">${msg}</div>`;
+        }
+    </script>
+</body>
+</html>
