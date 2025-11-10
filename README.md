@@ -16,7 +16,7 @@
 
 3. **Install Dependencies**
    ```bash
-   pip install flask opencv-python deepface mediapipe tensorflow numpy
+   pip install -r requirements.txt
    ```
 
 4. **Run Application**
