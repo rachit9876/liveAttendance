@@ -1,6 +1,6 @@
 # Live Attendance System
 
-### [📄 PPT](https://www.canva.com/design/DAG4Un1kla4/8Gepz5y-aNOAqYfHEYAvRA/edit?utm_content=DAG4Un1kla4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) | [📽️YT Guide Video](https://youtu.be/LexP5U4SPYU?si=UtfhEYIseqXwCZL3)
+### 📜📥 [ [PPT](https://docs.google.com/presentation/d/190cWMDmjK12aUNvZELUKmZnaYR0nB1OPtrsSysu5X5Q/edit?usp=sharing) | [Report](https://docs.google.com/document/d/1lKqS3LDpKS2L6VI-5meUA6ReSjM-VM0F7dgNWDx-tP4/edit?usp=sharing) ]
 ## Download & Setup
 
 1. **Download Project**
